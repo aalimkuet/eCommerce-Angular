@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { ShippingService } from './shipping.service';
+import { CheckoutService } from '../checkout.service';
 
 @Component({
   selector: 'app-shipping',
@@ -21,7 +21,7 @@ export class ShippingComponent {
   selectedOption: string | undefined;
   constructor(
     private fb: FormBuilder,
-    private shippingService: ShippingService
+    private checkoutService: CheckoutService
   ) {
     this.shippingAddressForm = this.fb.group({
       name: ['', [Validators.required, Validators.pattern(/^[A-Za-z\- ']+$/)]],
@@ -45,13 +45,13 @@ export class ShippingComponent {
   }
 
   ngOnInit() {
-    this.shippingService.getCountries().subscribe((countries) => {
+    this.checkoutService.getCountries().subscribe((countries) => {
       this.countries = countries;
     });
-    this.shippingService.getDivisions().subscribe((divisions) => {
+    this.checkoutService.getDivisions().subscribe((divisions) => {
       this.divisions = divisions;
     });
-    this.shippingService.getPaymentMethods().subscribe((payment_methods) => {
+    this.checkoutService.getPaymentMethods().subscribe((payment_methods) => {
       this.payment_methods = payment_methods;
     });
   }
@@ -65,13 +65,13 @@ export class ShippingComponent {
   }
   onDivisionChange(division: any) {
     let divisionId = division.target.value;
-    this.shippingService.getDistricts(divisionId).subscribe((divisions) => {
+    this.checkoutService.getDistricts(divisionId).subscribe((divisions) => {
       this.districts = Object.values(divisions);
     });
   }
   onDistrictChange(district: any) {
     let districtId = district.target.value;
-    this.shippingService.getUpazilas(districtId).subscribe((districts) => {
+    this.checkoutService.getUpazilas(districtId).subscribe((districts) => {
       this.upazilas = Object.values(districts);
     });
   }
@@ -92,7 +92,7 @@ export class ShippingComponent {
     }
   }
 
-  selectRadio(optionId: string){
+  selectRadio(optionId: string) {
     this.selectedOption = optionId;
     console.log(optionId);
   }

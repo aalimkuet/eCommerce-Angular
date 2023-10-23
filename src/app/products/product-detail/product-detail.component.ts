@@ -4,6 +4,7 @@ import { ProductService } from '../product.service';
 import { Product } from '../product.model';
 import { ActivatedRoute, Router } from '@angular/router';
 import { AuthService } from 'src/app/shared/auth.service';
+import { CheckoutService } from '../../checkout/checkout.service';
 
 @Component({
   selector: 'app-product-detail',
@@ -24,7 +25,8 @@ export class ProductDetailComponent {
     private productService: ProductService,
     private route: ActivatedRoute,
     private authService: AuthService,
-    private router: Router
+    private router: Router,
+    private checkoutService: CheckoutService
   ) {}
   ngOnInit() {
     this.productService.product$.subscribe((product) => {
@@ -56,7 +58,14 @@ export class ProductDetailComponent {
     }
   }
   addToCart() {
-    console.log(this.productAddToCart);
+    this.checkoutService.addCartItem(this.product?.id ?? 0).subscribe(
+      (response) => {
+        console.log(response);
+      },
+      (err) => {
+        console.log(err);
+      }
+    );
     this.sharedService.addToCart.next(++this.productAddToCart);
   }
   onBuyNow() {

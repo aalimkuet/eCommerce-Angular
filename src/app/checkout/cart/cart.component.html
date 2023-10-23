@@ -1,55 +1,124 @@
-<div class="card" style="margin-top: 2rem; min-height: 20rem">
-  <div class="card-body">
-    <div
-      class="row cart-item"
-      *ngFor="let productCart of productCarts; let i = index"
-    >
-      <div
-        class="col-md-8"
-        style="display: flex; flex-direction: row; justify-content: start"
-      >
-        <img class="avatar" src="{{ productCart.imageUrl }}" />
+<div class="row" style="margin-top: 2rem; min-height: 40rem">
+  <div class="col-sm-12 col-md-12 col-lg-8">
+    <div class="card">
+      <div class="card-body" style="min-height: 20rem">
         <div
-          style="
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            margin-left: 2rem;
-          "
+          class="row cart-item"
+          *ngFor="let productCart of productCarts; let i = index"
         >
-          <p class="mat-headline-5" style="font-size: 27px">
-            {{ productCart.name }}
-          </p>
-          <p class="mat-body-1">{{ productCart.email }}</p>
+          <div
+            class="col-sm-12 col-md-12 col-lg-6"
+            style="display: flex; flex-direction: row; justify-content: start"
+          >
+            <img class="avatar" src="{{ productCart?.images[0] }}" />
+            <div style="margin-left: 1rem">
+              <p class="mat-headline-6">
+                {{ productCart.title }}
+              </p>
+              <p class="mat-body-1">{{ productCart.brand }}</p>
+            </div>
+          </div>
+          <div class="col-2">
+            <p class="mat-headline-6" style="color: red">
+              ৳ {{ productCart.price }}
+            </p>
+          </div>
+          <div class="col-3">
+            <div style="display: flex">
+              <span
+                ><button
+                  mat-icon-button
+                  color="primary"
+                  (click)="addQuantity()"
+                  [disabled]="quantity >= 10"
+                  [ngClass]="{ 'disabled-button': quantity >= 5 }"
+                >
+                  <mat-icon>add</mat-icon>
+                </button></span
+              >
+              <span
+                class="mat-body-1"
+                style="margin-top: 12px; margin-left: 8px; font-weight: 600"
+                >{{ quantity }}</span
+              >
+              <span style="margin-left: 10px"
+                ><button
+                  mat-icon-button
+                  color="primary"
+                  (click)="removeQuantity()"
+                  [disabled]="quantity < 2"
+                  [ngClass]="{ 'disabled-button': quantity < 2 }"
+                >
+                  <mat-icon>remove</mat-icon>
+                </button></span
+              >
+            </div>
+            <button
+              style="margin-left: 2.2rem"
+              type="button"
+              mat-icon-button
+              color="warn"
+              (click)="removeCartItem(productCart.id)"
+            >
+              <mat-icon>delete</mat-icon>
+            </button>
+          </div>
+          <!-- <button (click)="onSubmit()" mat-raised-button color="primary">
+            Submit
+          </button> -->
+          <!-- <div class="col-md-2">
+            <button
+              mat-raised-button
+              type="button"
+              color="primary"
+              (click)="addIngredient()"
+              style="background-color: teal"
+            >
+              <mat-icon>add</mat-icon> Ingredient
+            </button>
+          </div> -->
+          <!-- <div style="float: right; margin-right: 3%">
+            <button type="submit" mat-raised-button color="primary">
+              Submit
+            </button>
+          </div> -->
         </div>
       </div>
-      <div class="col-md-1">
-        <button
-          type="button"
-          mat-icon-button
-          color="warn"
-          (click)="removeIngredient(i)"
-        >
-          <mat-icon>delete</mat-icon>
-        </button>
-      </div>
+    </div>
+  </div>
+  <div class="col-sm-12 col-md-12 col-lg-4 checkout-summary">
+    <div class="card">
+      <div class="card-body">
+        <p class="mat-headline-5">Checkout Summary</p>
 
-      <!-- <div class="col-md-2">
-          <button
-            mat-raised-button
-            type="button"
-            color="primary"
-            (click)="addIngredient()"
-            style="background-color: teal"
+        <ul class="list-group">
+          <li
+            class="list-group-item d-flex justify-content-between align-items-center"
           >
-            <mat-icon>add</mat-icon> Ingredient
-          </button>
-        </div> -->
-      <!-- <div style="float: right; margin-right: 3%">
-          <button type="submit" mat-raised-button color="primary">
-            Submit
-          </button>
-        </div> -->
+            Subtotal
+            <span class="badge badge-primary badge-pill">14</span>
+          </li>
+          <li
+            class="list-group-item d-flex justify-content-between align-items-center"
+          >
+            Shipping
+            <span class="badge badge-primary badge-pill">2</span>
+          </li>
+          <li
+            class="list-group-item d-flex justify-content-between align-items-center"
+          >
+            Total
+            <span class="badge badge-primary badge-pill">1</span>
+          </li>
+          <li
+            class="list-group-item d-flex justify-content-between align-items-center"
+            style="font-weight: bold"
+          >
+            Payable Total
+            <span class="badge badge-primary badge-pill">1000</span>
+          </li>
+        </ul>
+      </div>
     </div>
   </div>
 </div>

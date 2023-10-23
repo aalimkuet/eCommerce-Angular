@@ -22,4 +22,8 @@ export class ProductService {
     console.log(url);
     return this.http.get<any>(url);
   }
+  getProductById(productId: string): Observable<Product> {
+    const url = `${this.baseUrl}products.json?orderBy="id"&equalTo=${productId}`;
+    return this.http.get<Product>(url);
+  }
 }

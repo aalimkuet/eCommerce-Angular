@@ -1,6 +1,7 @@
 import { Component, ElementRef, ViewChild } from '@angular/core';
 import { SharedService } from '../shared.service';
 import { Router } from '@angular/router';
+import { CheckoutService } from 'src/app/checkout/checkout.service';
 
 @Component({
   selector: 'app-header',
@@ -11,12 +12,22 @@ export class HeaderComponent {
   @ViewChild('searchInput') search: ElementRef<any> | undefined;
   noOfProduct: number = 0;
 
-  constructor(private sharedService: SharedService, private router: Router) {}
+  constructor(
+    private sharedService: SharedService,
+    private router: Router,
+    private checkoutService: CheckoutService
+  ) {}
 
   ngOnInit() {
     this.sharedService.addToCart.subscribe((data) => {
-      this.noOfProduct = data;
-      console.log(data);
+      this.checkoutService.getCartItems().subscribe((data) => {
+        let items = Object.values(data);
+        this.noOfProduct = items.length;
+      });
+    });
+    this.checkoutService.getCartItems().subscribe((data) => {
+      let items = Object.values(data);
+      this.noOfProduct = items.length;
     });
   }
 
@@ -25,7 +36,7 @@ export class HeaderComponent {
     alert(this.search?.nativeElement.value);
   }
   onCart() {
-  //  this.noOfProduct++;
+    //  this.noOfProduct++;
     this.router.navigate(['/cart']);
   }
 }

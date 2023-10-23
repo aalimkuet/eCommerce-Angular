@@ -1,14 +1,15 @@
-import { HttpParams } from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Subject } from 'rxjs';
-
+import { Observable, Subject } from 'rxjs';
+import { environment } from 'src/environments/environment';
 @Injectable({
   providedIn: 'root',
 })
 export class SharedService {
   addToCart = new Subject<number>();
   buyNow = new Subject<boolean>();
-  constructor() {}
+  baseUrl = environment.apiUrl;
+  constructor(private http: HttpClient) {}
 
   getTokenParam = (): any => {
     const userDataString = localStorage.getItem('userData');
@@ -22,5 +23,15 @@ export class SharedService {
     }
     return '';
   };
-  
+
+  getUserId = (): any => {
+    const userDataString = localStorage.getItem('userData');
+    if (userDataString != null) {
+      const userData = JSON.parse(userDataString);
+      return userData.id;
+    }
+    return '';
+  };
+
+
 }
