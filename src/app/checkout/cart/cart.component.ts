@@ -1,5 +1,4 @@
 import { Component } from '@angular/core';
-import { forkJoin } from 'rxjs';
 import { ProductService } from 'src/app/products/product.service';
 import { CheckoutService } from '../checkout.service';
 import { ToastrService } from 'ngx-toastr';
@@ -13,45 +12,46 @@ export class CartComponent {
   productCarts: any[] = [];
 
   quantity: number = 1;
-  price: number = 150;
-  updatedPrice: number = 150;
+  price: number = 0;
+  updatedPrice: number = 0;
   productAddToCart: number = 0;
   productName: string = '';
   productLargeImage: string | undefined = '';
+  subTotal: number = 0;
+  total: number = 0;
+  shipping: number = 50;
 
   constructor(
     private checkoutService: CheckoutService,
-    private productService: ProductService,
     private toastr: ToastrService
   ) {}
 
   ngOnInit(): void {
     this.checkoutService.getCartItems().subscribe((data) => {
       let items = Object.values(data);
-      const observables = items.map((element) => {
-        return this.productService.getProductById(element.productId);
+      this.productCarts = items.map((item) => {
+        this.subTotal += item.product.price;
+        return item;
       });
-      forkJoin(observables).subscribe((productArray) => {
-        let product = productArray;
-        console.log(product);
-        product.forEach((element) => {
-          this.productCarts.push(Object.values(element)[0]);
-          console.log();
-        });
-      });
+
+      this.total = this.shipping + this.subTotal;
     });
   }
 
-  addQuantity() {
-    if (this.quantity < 10) {
-      this.quantity++;
-      this.updatedPrice = this.price * this.quantity;
+  addQuantity(productCart: any) {
+    if (productCart.product.quantity <= 10) {
+      let price = productCart.product.price;
+      productCart.product.quantity++;
+      this.subTotal = this.subTotal + price;
+      this.total = this.shipping + this.subTotal;
     }
   }
-  removeQuantity() {
-    if (this.quantity > 1) {
-      this.quantity--;
-      this.updatedPrice = this.price * this.quantity;
+  removeQuantity(productCart: any) {
+    if (productCart.product.quantity > 1) {
+      let price = productCart.product.price;
+      productCart.product.quantity--;
+      this.subTotal = this.subTotal - price;
+      this.total = this.shipping + this.subTotal;
     }
   }
 

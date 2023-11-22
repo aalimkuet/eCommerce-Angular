@@ -10,7 +10,7 @@ import { environment } from 'src/environments/environment';
 export class ProductService {
   baseUrl = environment.apiUrl;
 
-  product = new Subject<Product | undefined>();
+  product = new Subject<Product | any>();
   product$ = this.product.asObservable();
 
   productData: any;

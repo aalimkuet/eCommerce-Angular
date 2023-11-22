@@ -16,7 +16,7 @@ export class ProductDetailComponent {
   price: number = 150;
   updatedPrice: number = 150;
   productAddToCart: number = 0;
-  product: Product | undefined;
+  product: Product | any;
   productName: string = '';
   productLargeImage: string | undefined = '';
 
@@ -42,6 +42,7 @@ export class ProductDetailComponent {
     //   this.productTitle = data;
     //   console.log(this.productTitle);
     // });
+
     this.product = this.productService.productData;
     this.productLargeImage = this.product?.images[0];
   }
@@ -58,7 +59,8 @@ export class ProductDetailComponent {
     }
   }
   addToCart() {
-    this.checkoutService.addCartItem(this.product?.id ?? 0).subscribe(
+    this.product.quantity = this.quantity;
+    this.checkoutService.addCartItem(this.product).subscribe(
       (response) => {
         console.log(response);
       },

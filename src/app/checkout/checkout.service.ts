@@ -3,6 +3,7 @@ import { Injectable } from '@angular/core';
 import { Observable, switchMap } from 'rxjs';
 import { environment } from 'src/environments/environment';
 import { SharedService } from 'src/app/shared/shared.service';
+import { Product } from '../products/product.model';
 @Injectable({
   providedIn: 'root',
 })
@@ -32,10 +33,10 @@ export class CheckoutService {
     return this.http.get<any>(url);
   }
 
-  addCartItem = (productId: number) => {
+  addCartItem = (product: Product | undefined) => {
     const url = `${this.baseUrl}shopping_carts.json`;
     const payLoad = {
-      productId: productId,
+      product: product,
       user_id: this.sharedService.getUserId(),
     };
     return this.http.post(url, payLoad);
@@ -52,12 +53,11 @@ export class CheckoutService {
 
     return this.http.get(url).pipe(
       switchMap((data) => {
-        const cartId = Object.keys(data)[0]; 
+        const cartId = Object.keys(data)[0];
 
         if (!cartId) {
           throw new Error('Cart ID not found');
         }
-
         const deleteUrl = `${this.baseUrl}shopping_carts/${cartId}.json`;
         console.log(deleteUrl);
         return this.http.delete(deleteUrl);

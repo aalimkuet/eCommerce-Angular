@@ -9,6 +9,7 @@
 .form-control {
    border-radius: 10px !important;
 }
+
 @media ( min-width: 768px ) {
   .form-group{
     margin: 1rem !important ;

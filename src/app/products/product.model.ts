@@ -11,6 +11,7 @@ export interface IProduct {
   category: string;
   thumbnail: string;
   images: string[];
+  quantity: number;
 }
 
 export class Product {
@@ -26,6 +27,7 @@ export class Product {
     public brand: string,
     public category: string,
     public thumbnail: string,
-    public images: string[]
+    public images: string[],
+    public quantity: number
   ) {}
 }

@@ -14,22 +14,23 @@
   margin: .2rem;
   border-radius: 5px;
   background-color: rgb(247, 247, 247);
+  
   padding: 5px;
   box-shadow: 2px 2px 5px rgba(165, 165, 165, 0.3);
   list-style: none;
   min-width: 15rem;
-  height: 10rem;
+  height: 8rem;
   display: flex;
   flex-direction: row !important;
   justify-content: space-between !important;
   cursor: pointer;
-  padding-top: 1.5rem !important;
+  padding-top: 1rem !important;
 }
 
 .cart-item:hover {
   font-weight: 400 !important;
   border: 1px solid rgb(221, 221, 221) !important;
-  transform: translateZ(1px);
+  /* transform: translateZ(1px); */
 }
 
 .avatar {
@@ -55,4 +56,7 @@
 }
 .disabled-button {
   color: gray;
+}
+.mat-h4, .mat-body-1, .mat-typography .mat-h4, .mat-typography .mat-body-1, .mat-typography h4{
+  margin:0 0 4px !important;
 }

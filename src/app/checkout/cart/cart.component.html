@@ -1,4 +1,4 @@
-<div class="row" style="margin-top: 2rem; min-height: 40rem">
+<div class="row" style="margin-top: 2rem; min-height: 30rem">
   <div class="col-sm-12 col-md-12 col-lg-8">
     <div class="card">
       <div class="card-body" style="min-height: 20rem">
@@ -10,17 +10,20 @@
             class="col-sm-12 col-md-12 col-lg-6"
             style="display: flex; flex-direction: row; justify-content: start"
           >
-            <img class="avatar" src="{{ productCart?.images[0] }}" />
+            <img class="avatar" src="{{ productCart?.product.images[0] }}" />
             <div style="margin-left: 1rem">
-              <p class="mat-headline-6">
-                {{ productCart.title }}
+              <p class="mat-h4">
+                {{ productCart.product.title }}
               </p>
-              <p class="mat-body-1">{{ productCart.brand }}</p>
+              <p class="mat-body-2">{{ productCart.product.brand }}</p>
             </div>
           </div>
           <div class="col-2">
-            <p class="mat-headline-6" style="color: red">
-              ৳ {{ productCart.price }}
+            <p class="mat-headline-7" style="color: red">
+              ৳ {{ productCart.product.price }}
+            </p>
+            <p class="mat-headline-7" style="color: rgb(32, 104, 50)">
+              ৳ {{ updatedPrice }}
             </p>
           </div>
           <div class="col-3">
@@ -29,25 +32,29 @@
                 ><button
                   mat-icon-button
                   color="primary"
-                  (click)="addQuantity()"
-                  [disabled]="quantity >= 10"
-                  [ngClass]="{ 'disabled-button': quantity >= 5 }"
+                  (click)="addQuantity(productCart)"
+                  [disabled]="productCart.product.quantity >= 5"
+                  [ngClass]="{
+                    'disabled-button': productCart.product.quantity >= 5
+                  }"
                 >
                   <mat-icon>add</mat-icon>
                 </button></span
               >
               <span
                 class="mat-body-1"
-                style="margin-top: 12px; margin-left: 8px; font-weight: 600"
-                >{{ quantity }}</span
+                style="padding: 12px; font-weight: 600"
+                >{{ productCart.product.quantity }}</span
               >
               <span style="margin-left: 10px"
                 ><button
                   mat-icon-button
                   color="primary"
-                  (click)="removeQuantity()"
-                  [disabled]="quantity < 2"
-                  [ngClass]="{ 'disabled-button': quantity < 2 }"
+                  (click)="removeQuantity(productCart)"
+                  [disabled]="productCart.product.quantity < 2"
+                  [ngClass]="{
+                    'disabled-button': productCart.product.quantity < 2
+                  }"
                 >
                   <mat-icon>remove</mat-icon>
                 </button></span
@@ -58,7 +65,7 @@
               type="button"
               mat-icon-button
               color="warn"
-              (click)="removeCartItem(productCart.id)"
+              (click)="removeCartItem(productCart.product.id)"
             >
               <mat-icon>delete</mat-icon>
             </button>
@@ -96,26 +103,26 @@
             class="list-group-item d-flex justify-content-between align-items-center"
           >
             Subtotal
-            <span class="badge badge-primary badge-pill">14</span>
+            <span class="badge badge-primary badge-pill">{{ subTotal }}</span>
           </li>
           <li
             class="list-group-item d-flex justify-content-between align-items-center"
           >
             Shipping
-            <span class="badge badge-primary badge-pill">2</span>
+            <span class="badge badge-primary badge-pill">{{ shipping }}</span>
           </li>
           <li
             class="list-group-item d-flex justify-content-between align-items-center"
           >
             Total
-            <span class="badge badge-primary badge-pill">1</span>
+            <span class="badge badge-primary badge-pill"> {{ total }} </span>
           </li>
           <li
             class="list-group-item d-flex justify-content-between align-items-center"
             style="font-weight: bold"
           >
             Payable Total
-            <span class="badge badge-primary badge-pill">1000</span>
+            <span class="badge badge-primary badge-pill">{{ total }}</span>
           </li>
         </ul>
       </div>

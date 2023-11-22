@@ -11,7 +11,7 @@ import { CheckoutService } from 'src/app/checkout/checkout.service';
 export class HeaderComponent {
   @ViewChild('searchInput') search: ElementRef<any> | undefined;
   noOfProduct: number = 0;
-
+  searchString: string = '';
   constructor(
     private sharedService: SharedService,
     private router: Router,
